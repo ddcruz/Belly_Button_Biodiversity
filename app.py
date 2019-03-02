@@ -1,9 +1,8 @@
 import os
-
 import pandas as pd
 import numpy as np
-
 import sqlalchemy
+
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
@@ -18,15 +17,19 @@ app = Flask(__name__)
 # Database Setup
 #################################################
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL') or "sqlite:///db/bellybutton.sqlite"
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL') or "sqlite:///db/bellybutton.sqlite"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/bellybutton.sqlite"
+app.config.from_object('config')
 db = SQLAlchemy(app)
 
-# reflect an existing database into a new model
+# from models import sample as Samples, sample_metadata as Samples_Metadata
+
+# # reflect an existing database into a new model
 Base = automap_base()
-# reflect the tables
+# # reflect the tables
 Base.prepare(db.engine, reflect=True)
 
-# Save references to each table
+# # Save references to each table
 Samples_Metadata = Base.classes.sample_metadata
 Samples = Base.classes.samples
 
